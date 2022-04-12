@@ -5,7 +5,7 @@ const minus = document.getElementById("minus");
 const number = document.querySelector("span");
 
 const countModifier = (count = 0, action) => {
-  console.log(action);
+  console.log(count, action);
   if (action.type === "ADD") {
     return count + 1;
   } else if (action.type === "MINUS") {
@@ -17,13 +17,21 @@ const countModifier = (count = 0, action) => {
 
 const countStore = createStore(countModifier);
 
-countStore.dispatch({ type: "ADD" }); // action -> has to be object
-countStore.dispatch({ type: "ADD" }); // action -> has to be object
-countStore.dispatch({ type: "ADD" }); // action -> has to be object
-countStore.dispatch({ type: "ADD" }); // action -> has to be object
-countStore.dispatch({ type: "ADD" }); // action -> has to be object
-countStore.dispatch({ type: "ADD" }); // action -> has to be object
-countStore.dispatch({ type: "ADD" }); // action -> has to be object
-countStore.dispatch({ type: "MINUS" }); // action -> has to be object
+const onChange = () => {
+  number.innerText = countStore.getState()
+}
 
-console.log(countStore.getState());
+countStore.subscribe(onChange)
+
+
+const handleAdd = () => {
+  countStore.dispatch({type: "ADD"})
+}
+
+const handleMinus = () => {
+  countStore.dispatch({type: "MINUS"})
+}
+
+add.addEventListener("click", handleAdd)
+
+minus.addEventListener("click", handleMinus)
